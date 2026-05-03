@@ -8,6 +8,7 @@ import { GridScreen } from './screens/GridScreen';
 import { SlotSheet } from './screens/SlotSheet';
 import { BookingsScreen } from './screens/BookingsScreen';
 import { ProfileScreen } from './screens/ProfileScreen';
+import { UsersScreen } from './screens/UsersScreen';
 import { Toast } from './components/Toast';
 
 export default function App() {
@@ -85,6 +86,13 @@ export default function App() {
       <BookingsScreen
         bookings={bookings} user={user} profile={profile}
         onTabChange={setTab} onSelect={setSelection}
+      />
+    );
+  } else if (tab === 'users') {
+    screen = (
+      <UsersScreen
+        onTabChange={setTab}
+        onToast={setToast}
       />
     );
   } else {
