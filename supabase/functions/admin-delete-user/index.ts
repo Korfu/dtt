@@ -37,6 +37,16 @@ Deno.serve(async (req) => {
 
   const { userId } = await req.json()
 
+  if (typeof userId !== 'string' || userId.trim() === '') {
+    return json({ error: 'Invalid userId' }, 400)
+  }
+  if (userId === caller.id) return json({ error: 'Cannot delete yourself' }, 400)
+
+  // Refuse to delete other admins via this endpoint — admins are managed by script
+  const { data: targetProfile } = await adminClient
+    .from('profiles').select('role').eq('id', userId).single()
+  if (targetProfile?.role === 'admin') return json({ error: 'Cannot delete admin users' }, 403)
+
   // Order matters: bookings first, then profile, then auth user
   const { error: bookingsError } = await adminClient
     .from('bookings').delete().eq('user_id', userId)

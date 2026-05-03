@@ -37,6 +37,13 @@ Deno.serve(async (req) => {
 
   const { userId, newPassword } = await req.json()
 
+  if (typeof userId !== 'string' || userId.trim() === '') {
+    return json({ error: 'Invalid userId' }, 400)
+  }
+  if (typeof newPassword !== 'string' || newPassword.length < 6) {
+    return json({ error: 'Password must be at least 6 characters' }, 400)
+  }
+
   const { error } = await adminClient.auth.admin.updateUserById(userId, { password: newPassword })
   if (error) return json({ error: error.message }, 400)
 

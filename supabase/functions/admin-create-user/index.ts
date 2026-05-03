@@ -39,6 +39,14 @@ Deno.serve(async (req) => {
   // Create the auth user
   const { email, password, firstName, lastName, username, color } = await req.json()
 
+  // Validate required fields
+  for (const [field, value] of Object.entries({ email, password, firstName, lastName, username, color })) {
+    if (typeof value !== 'string' || value.trim() === '') {
+      return json({ error: `Missing or invalid field: ${field}` }, 400)
+    }
+  }
+  if (password.length < 6) return json({ error: 'Password must be at least 6 characters' }, 400)
+
   const { data: { user: newUser }, error: authError } =
     await adminClient.auth.admin.createUser({ email, password, email_confirm: true })
   if (authError) return json({ error: authError.message }, 400)

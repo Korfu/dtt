@@ -7,7 +7,7 @@ export function useUsers() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.from('profiles').select('*').then(({ data }) => {
+    supabase.from('profiles').select('*').order('name').then(({ data }) => {
       if (data) setUsers(data);
       setLoading(false);
     });
