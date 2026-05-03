@@ -46,6 +46,27 @@ export function ProfileScreen({ user, profile, onTabChange, onLogout }) {
           </div>
         </div>
 
+        {profile?.role === 'admin' && (
+          <button onClick={() => onTabChange('users')} style={{
+            width: '100%', marginBottom: 18,
+            padding: '16px 18px', borderRadius: 14,
+            background: T.bgCard, border: `1px solid ${T.accentLine}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            cursor: 'pointer', textAlign: 'left',
+          }}>
+            <span style={{ fontSize: 14, fontWeight: 500, color: T.ink }}>
+              Zarządzaj użytkownikami
+            </span>
+            <span style={{
+              padding: '3px 10px', borderRadius: 100,
+              background: T.accentSoft, color: T.accentInk,
+              border: `1px solid ${T.accentLine}`,
+              fontFamily: T.mono, fontSize: 9,
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+            }}>Admin</span>
+          </button>
+        )}
+
         <ProfileRow label="Klub" value="DTT Działdowo" />
         <ProfileRow label="Język" value="Polski" />
         <ProfileRow label="Powiadomienia" value="Włączone" />
