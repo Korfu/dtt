@@ -293,7 +293,7 @@ function SlotRow({ h, b, spanLength, isFirst, profile, user, viewerProfile, onCl
         display: 'flex', alignItems: 'center', gap: 12,
         cursor: 'pointer', textAlign: 'left',
         position: 'relative',
-        opacity: isPast ? 0.7 : 1,
+        opacity: isPast ? 0.85 : 1,
       }}>
         <div style={{
           width: 32, height: 32, borderRadius: '50%',
@@ -319,7 +319,7 @@ function SlotRow({ h, b, spanLength, isFirst, profile, user, viewerProfile, onCl
           <div style={{
             fontFamily: T.mono, fontSize: 10,
             letterSpacing: '0.05em', textTransform: 'uppercase',
-            color: isMine ? 'rgba(0,0,0,0.6)' : T.inkSoft,
+            color: isMine ? 'rgba(255,255,255,0.65)' : T.inkSoft,
             marginTop: 3,
           }}>
             {fmtRange(h, b.duration)}
@@ -332,8 +332,8 @@ function SlotRow({ h, b, spanLength, isFirst, profile, user, viewerProfile, onCl
             position: 'absolute', right: 12, top: 12,
             fontFamily: T.mono, fontSize: 9, letterSpacing: '0.1em',
             padding: '2px 6px', borderRadius: 4,
-            background: isMine ? 'rgba(0,0,0,0.1)' : T.borderSoft,
-            color: isMine ? 'rgba(0,0,0,0.7)' : T.inkSoft,
+            background: isMine ? 'rgba(255,255,255,0.15)' : T.borderSoft,
+            color: isMine ? 'rgba(255,255,255,0.75)' : T.inkSoft,
           }}>{b.duration}H</div>
         )}
       </button>
