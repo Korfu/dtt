@@ -124,12 +124,12 @@ export default function App() {
 function AppShell({ children }) {
   return (
     <div style={{
-      width: '100%', minHeight: '100dvh',
+      width: '100%', height: '100dvh',
       display: 'flex', justifyContent: 'center',
       background: T.page,
     }}>
       <div style={{
-        width: '100%', maxWidth: 430, minHeight: '100dvh',
+        width: '100%', maxWidth: 430, height: '100dvh',
         background: T.bg,
         position: 'relative', overflow: 'hidden',
       }}>

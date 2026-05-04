@@ -134,33 +134,32 @@ function BookingForm({ duration, setDuration, partner, setPartner, recurring, se
         />
       </div>
 
-      <button onClick={() => setRecurring(!recurring)} style={{
+      <div aria-disabled style={{
         width: '100%', padding: '14px 16px', borderRadius: 14,
         border: `1px solid ${T.border}`, background: T.bgCard,
-        color: T.ink,
         display: 'flex', alignItems: 'center', gap: 12,
-        cursor: 'pointer', textAlign: 'left', marginBottom: 24,
+        textAlign: 'left', marginBottom: 24,
+        opacity: 0.5, cursor: 'not-allowed',
       }}>
-        <IconRepeat size={18} stroke={T.ink}/>
+        <IconRepeat size={18} stroke={T.inkMuted}/>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 14, fontWeight: 500 }}>Powtarzaj co tydzień</div>
-          <div style={{ fontSize: 12, color: T.inkSoft, marginTop: 2 }}>
-            Rezerwacja cykliczna na 4 tygodnie
+          <div style={{ fontSize: 14, fontWeight: 500, color: T.inkSoft }}>Powtarzaj co tydzień</div>
+          <div style={{ fontSize: 12, color: T.inkMuted, marginTop: 2 }}>
+            Tymczasowo niedostępne (sloty są czyszczone w niedzielę)
           </div>
         </div>
         <div style={{
           width: 44, height: 26, borderRadius: 100,
-          background: recurring ? T.accent : T.border,
-          position: 'relative', transition: 'background 0.15s',
+          background: T.border, position: 'relative',
         }}>
           <div style={{
-            position: 'absolute', top: 3, left: recurring ? 21 : 3,
+            position: 'absolute', top: 3, left: 3,
             width: 20, height: 20, borderRadius: '50%',
-            background: '#fff', transition: 'left 0.15s',
+            background: '#fff',
             boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
           }}/>
         </div>
-      </button>
+      </div>
 
       <button onClick={onConfirm} style={{
         width: '100%', height: 56, borderRadius: T.radiusPill, border: 'none',
