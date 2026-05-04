@@ -31,8 +31,12 @@ export default function App() {
       await addBooking({ date, hour, duration, partnerName, isRecurring, userId: user.id });
       setSelection(null);
       setToast({ type: 'success', text: `Zarezerwowano ${duration}h${isRecurring ? ' (cykliczne)' : ''}` });
-    } catch {
-      setToast({ type: 'error', text: 'Nie udało się zarezerwować.' });
+    } catch (err) {
+      console.error('Booking failed:', err);
+      const text = err?.code === '23505'
+        ? 'Ten slot jest już zajęty.'
+        : (err?.message ? `Błąd: ${err.message}` : 'Nie udało się zarezerwować.');
+      setToast({ type: 'error', text });
     }
   }
 
@@ -41,8 +45,9 @@ export default function App() {
       await cancelBooking(booking);
       setSelection(null);
       setToast({ type: 'neutral', text: 'Rezerwacja anulowana' });
-    } catch {
-      setToast({ type: 'error', text: 'Nie udało się anulować.' });
+    } catch (err) {
+      console.error('Cancel failed:', err);
+      setToast({ type: 'error', text: err?.message ? `Błąd: ${err.message}` : 'Nie udało się anulować.' });
     }
   }
 
@@ -110,7 +115,7 @@ export default function App() {
       {screen}
       {selection && (
         <SlotSheet
-          selection={selection} user={user}
+          selection={selection} user={user} viewerProfile={profile}
           onClose={() => setSelection(null)}
           onConfirm={handleConfirm}
           onCancel={handleCancel}

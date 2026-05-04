@@ -22,7 +22,7 @@ export function GridScreen({ bookings, user, profile, weekStart, onWeekChange, o
       <Header profile={profile} weekStart={weekStart} onWeekChange={onWeekChange} onTabChange={onTabChange} />
       <DayStrip days={days} selectedDay={selectedDay} setSelectedDay={setSelectedDay} bookings={bookings} />
       <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 100 }}>
-        <WeeklyGrid bookings={bookings} day={days[selectedDay]} dayIdx={selectedDay} user={user} onSelect={onSelect} />
+        <WeeklyGrid bookings={bookings} day={days[selectedDay]} dayIdx={selectedDay} user={user} viewerProfile={profile} onSelect={onSelect} />
       </div>
       <BottomTab active="grid" onTabChange={onTabChange} />
     </div>
@@ -141,7 +141,7 @@ function DayStrip({ days, selectedDay, setSelectedDay, bookings }) {
   );
 }
 
-function WeeklyGrid({ bookings, day, dayIdx, user, onSelect }) {
+function WeeklyGrid({ bookings, day, dayIdx, user, viewerProfile, onSelect }) {
   const dateStr = day.toISOString().slice(0, 10);
   const dayBookings = bookings.filter(b => b.day_date === dateStr);
 
@@ -202,7 +202,7 @@ function WeeklyGrid({ bookings, day, dayIdx, user, onSelect }) {
             <SlotRow
               key={h}
               h={h} b={b} spanLength={spanLength || 1} isFirst={i === 0}
-              profile={profile} user={user}
+              profile={profile} user={user} viewerProfile={viewerProfile}
               onClick={() => onSelect({ date: day, dateStr, hour: h, booking: b, spanLength: spanLength || 1 })}
             />
           );
@@ -235,8 +235,9 @@ function LegendDot({ dot, border, label, diag }) {
   );
 }
 
-function SlotRow({ h, b, spanLength, isFirst, profile, user, onClick }) {
+function SlotRow({ h, b, spanLength, isFirst, profile, user, viewerProfile, onClick }) {
   const isMine = b && b.user_id === user?.id;
+  const isViewerAdmin = viewerProfile?.role === 'admin';
   const isPast = b && (() => {
     const slotDate = new Date(b.day_date + 'T' + String(h).padStart(2,'0') + ':00:00');
     return slotDate < new Date();
@@ -314,7 +315,11 @@ function SlotRow({ h, b, spanLength, isFirst, profile, user, onClick }) {
             color: isMine ? T.mineInk : T.ink,
             overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
           }}>
-            {isMine ? 'Twoja rezerwacja' : (profile?.name?.split(' ')[0] + ' ' + (profile?.name?.split(' ')[1]?.[0] || '') + '.')}
+            {isMine
+              ? 'Twoja rezerwacja'
+              : (isViewerAdmin
+                  ? (profile?.name?.split(' ')[0] + ' ' + (profile?.name?.split(' ')[1]?.[0] || '') + '.')
+                  : 'Zajęte')}
           </div>
           <div style={{
             fontFamily: T.mono, fontSize: 10,
@@ -323,7 +328,7 @@ function SlotRow({ h, b, spanLength, isFirst, profile, user, onClick }) {
             marginTop: 3,
           }}>
             {fmtRange(h, b.duration)}
-            {b.partner_name && ` · z ${b.partner_name}`}
+            {b.partner_name && (isMine || isViewerAdmin) && ` · z ${b.partner_name}`}
           </div>
         </div>
 

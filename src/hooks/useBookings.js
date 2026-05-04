@@ -50,6 +50,17 @@ export function useBookings(weekStart) {
         });
       }
     }
+
+    // Client-side conflict check against bookings in the visible week
+    const conflict = rows.find(r =>
+      bookings.some(b => b.day_date === r.day_date && b.hour === r.hour)
+    );
+    if (conflict) {
+      const err = new Error('Ten slot jest już zajęty.');
+      err.code = '23505';
+      throw err;
+    }
+
     const { error } = await supabase.from('bookings').insert(rows);
     if (error) throw error;
     fetch();

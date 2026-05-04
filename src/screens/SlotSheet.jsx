@@ -3,9 +3,10 @@ import { T } from '../themes';
 import { DAY_NAMES_FULL, MONTH_NAMES, fmtRange } from '../data';
 import { IconClose, IconCheck, IconRepeat, IconClock, IconTrash } from '../icons';
 
-export function SlotSheet({ selection, user, onClose, onConfirm, onCancel }) {
+export function SlotSheet({ selection, user, viewerProfile, onClose, onConfirm, onCancel }) {
   const { date, hour, booking, spanLength } = selection;
   const isMine = booking && booking.user_id === user?.id;
+  const isViewerAdmin = viewerProfile?.role === 'admin';
   const isPast = booking && (() => {
     const slotDate = new Date(booking.day_date + 'T' + String(hour).padStart(2,'0') + ':00:00');
     return slotDate < new Date();
@@ -79,7 +80,7 @@ export function SlotSheet({ selection, user, onClose, onConfirm, onCancel }) {
             onCancel={() => onCancel(booking)}
           />
         )}
-        {booking && !isMine && <OtherBookingDetail profile={profile} booking={booking} />}
+        {booking && !isMine && <OtherBookingDetail profile={profile} booking={booking} isViewerAdmin={isViewerAdmin} />}
         {booking && isPast && isMine && <PastBookingNote />}
       </div>
     </div>
@@ -244,7 +245,7 @@ function MyBookingDetail({ booking, hour, spanLength, confirmCancel, setConfirmC
   );
 }
 
-function OtherBookingDetail({ profile, booking }) {
+function OtherBookingDetail({ profile, booking, isViewerAdmin }) {
   return (
     <div>
       <div style={{
@@ -264,8 +265,10 @@ function OtherBookingDetail({ profile, booking }) {
             letterSpacing: '0.12em', textTransform: 'uppercase',
             color: T.inkSoft,
           }}>Zarezerwowane przez</div>
-          <div style={{ fontSize: 16, fontWeight: 500, marginTop: 4 }}>{profile?.name}</div>
-          {booking.partner_name && (
+          <div style={{ fontSize: 16, fontWeight: 500, marginTop: 4 }}>
+            {isViewerAdmin ? profile?.name : (profile?.initials || 'Inny członek')}
+          </div>
+          {booking.partner_name && isViewerAdmin && (
             <div style={{ fontSize: 13, color: T.inkSoft, marginTop: 2 }}>
               z {booking.partner_name}
             </div>
