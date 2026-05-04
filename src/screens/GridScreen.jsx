@@ -217,7 +217,7 @@ function WeeklyGrid({ bookings, day, dayIdx, user, viewerProfile, onSelect }) {
       }}>
         <LegendDot dot={T.bgCard} border={T.border} label="Wolne" />
         <LegendDot dot={T.mine} border={T.mine} label="Twoja" />
-        <LegendDot dot={T.bg} border={T.border} label="Zajęte" />
+        <LegendDot dot={T.page} border={T.border} label="Zajęte" />
       </div>
     </div>
   );
@@ -288,20 +288,19 @@ function SlotRow({ h, b, spanLength, isFirst, profile, user, viewerProfile, onCl
       <button onClick={onClick} style={{
         height,
         border: 'none', borderTop,
-        background: isMine ? T.mine : T.bg,
+        background: isMine ? T.mine : T.page,
         padding: '10px 14px',
         display: 'flex', alignItems: 'center', gap: 12,
         cursor: 'pointer', textAlign: 'left',
         position: 'relative',
-        opacity: isPast ? 0.5 : 1,
+        opacity: isPast ? 0.7 : 1,
       }}>
         <div style={{
           width: 32, height: 32, borderRadius: '50%',
-          background: isMine ? 'rgba(0,0,0,0.12)' : (profile?.color || '#aaa'),
-          color: isMine ? T.mineInk : '#fff',
+          background: isMine ? 'rgba(255,255,255,0.15)' : (profile?.color || '#aaa'),
+          color: '#fff',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontFamily: T.body, fontSize: 11, fontWeight: 500,
-          border: isMine ? '1px solid rgba(0,0,0,0.15)' : 'none',
           flexShrink: 0,
         }}>{profile?.initials || '?'}</div>
 
