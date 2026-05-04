@@ -89,7 +89,7 @@ export default function App() {
   } else if (tab === 'bookings') {
     screen = (
       <BookingsScreen
-        bookings={bookings} user={user} profile={profile}
+        user={user} profile={profile}
         onTabChange={setTab} onSelect={setSelection}
       />
     );

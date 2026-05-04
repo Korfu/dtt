@@ -217,18 +217,17 @@ function WeeklyGrid({ bookings, day, dayIdx, user, viewerProfile, onSelect }) {
       }}>
         <LegendDot dot={T.bgCard} border={T.border} label="Wolne" />
         <LegendDot dot={T.mine} border={T.mine} label="Twoja" />
-        <LegendDot dot={T.borderSoft} border={T.border} label="Zajęte" diag />
+        <LegendDot dot={T.bg} border={T.border} label="Zajęte" />
       </div>
     </div>
   );
 }
 
-function LegendDot({ dot, border, label, diag }) {
+function LegendDot({ dot, border, label }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
       <div style={{
         width: 12, height: 12, borderRadius: 3, background: dot, border: `1px solid ${border}`,
-        backgroundImage: diag ? 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(128,128,128,0.2) 2px, rgba(128,128,128,0.2) 3px)' : 'none',
       }}/>
       <span>{label}</span>
     </div>
@@ -289,15 +288,12 @@ function SlotRow({ h, b, spanLength, isFirst, profile, user, viewerProfile, onCl
       <button onClick={onClick} style={{
         height,
         border: 'none', borderTop,
-        background: isMine ? T.mine : T.bgCard,
+        background: isMine ? T.mine : T.bg,
         padding: '10px 14px',
         display: 'flex', alignItems: 'center', gap: 12,
         cursor: 'pointer', textAlign: 'left',
         position: 'relative',
         opacity: isPast ? 0.5 : 1,
-        backgroundImage: isMine
-          ? 'none'
-          : `repeating-linear-gradient(45deg, transparent, transparent 6px, ${T.borderSoft} 6px, ${T.borderSoft} 7px)`,
       }}>
         <div style={{
           width: 32, height: 32, borderRadius: '50%',
