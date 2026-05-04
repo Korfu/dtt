@@ -8,7 +8,12 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "create-user": "node --env-file=.env.local scripts/create-user.js"
+    "create-user": "node --env-file=.env.local scripts/create-user.js",
+    "db:pull": "supabase db pull",
+    "db:push": "supabase db push",
+    "db:diff": "supabase db diff",
+    "db:reset": "supabase db reset --linked",
+    "migration:new": "supabase migration new"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.1",

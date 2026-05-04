@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { T } from '../themes';
 
-export function Field({ label, value, onChange, icon, type = 'text' }) {
+export function Field({ label, value, onChange, icon, type = 'text', placeholder = '' }) {
   const [focused, setFocused] = useState(false);
   return (
     <label style={{
@@ -25,6 +25,7 @@ export function Field({ label, value, onChange, icon, type = 'text' }) {
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
+          placeholder={placeholder}
           style={{
             border: 'none', outline: 'none', padding: 0,
             background: 'transparent',
